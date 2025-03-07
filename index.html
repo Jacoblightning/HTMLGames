@@ -9,34 +9,80 @@
             top: 50%;
             left: 50%;
         }
+
+        #impossibleMode {
+            display: inline;
+        }
+
+        .stats {
+            text-align: right;
+            vertical-align: text-top;
+            float: right;
+        }
     </style>
     <script>
+        let misses = 0;
+        let skip = false;
+
+        function recalcMisses() {
+            missCount.innerHTML = misses;
+            if (lowScore.innerHTML < misses) {
+                lowScore.innerHTML = misses;
+            }
+        }
+
         function actuallyMoveIt(elem) {
             elem.style.left = (Math.random() * 100) + "%"
             elem.style.top = (Math.random() * 100) + "%"
+
+            misses++;
+            recalcMisses()
         }
 
         function iLikeToMoveItMoveIt(elem) {
+            if (skip){
+                skip = false;
+                return;
+            }
+
             if (impossibleButton.checked) {
                 actuallyMoveIt(elem);
             } else {
                 setTimeout(actuallyMoveIt, 50, elem);
             }
         }
+
+        function winSequence() {
+            let miss = misses
+            highScore.innerHTML = misses;
+            misses = 0;
+            recalcMisses();
+            alert('Congratulations!!!\nIt took you '+miss+' tries!');
+            skip = true;
+        }
     </script>
 </head>
 <body>
 
-<label>
-    Impossible Mode:
+<div>
+    <label for="impossibleMode">Impossible Mode: </label>
     <input type="checkbox" id="impossibleMode">
-</label>
 
-<button class="thebutton" onmouseenter="iLikeToMoveItMoveIt(this)" onclick="alert('Congratulations!!!')">Just Click Me</button>
+    <span class="stats">Misses: <span id="misscount">0</span></span>
+    <br>
+    <span class="stats">High Score (reset on reload): <span id="HS">None</span></span>
+    <br>
+    <span class="stats">Low Score (reset on reload): <span id="LS">0</span></span>
+</div>
+
+<button class="thebutton" onmouseenter="iLikeToMoveItMoveIt(this)" onclick="winSequence()">Just Click Me</button>
 
 
 <script>
     const impossibleButton = document.getElementById('impossibleMode');
+    const missCount        = document.getElementById('misscount');
+    const highScore        = document.getElementById('HS');
+    const lowScore         = document.getElementById('LS');
 </script>
 </body>
 </html>
