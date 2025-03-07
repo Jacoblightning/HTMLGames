@@ -1,0 +1,16 @@
+
+.thebutton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#impossibleMode {
+    display: inline;
+}
+
+.stats {
+    text-align: right;
+    vertical-align: text-top;
+    float: right;
+}
