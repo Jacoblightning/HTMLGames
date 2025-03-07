@@ -3,6 +3,12 @@ const missCount        = document.getElementById('misscount');
 const highScore        = document.getElementById('HS');
 const lowScore         = document.getElementById('LS');
 
+const difficultyName = document.getElementById('difficulty');
+
+const difficultyData = [500, 250, 150, 100, 50, 15];
+const difficultyNames = ["Ultra Baby", "Baby", "Easy", "Medium", "Hard", "Superhuman"]
+let diffIndex = 0;
+
 
 let scores = {"HS":-1, "LS":0}
 {
@@ -16,7 +22,16 @@ let scores = {"HS":-1, "LS":0}
         lowScore.innerHTML  = scores.LS;
 
     }
+
+    let scored_diff = localStorage.getItem("difficulty");
+    if (scored_diff) {
+        diffIndex = Number(scored_diff);
+    }
 }
+
+difficultyName.innerHTML = difficultyNames[diffIndex];
+
+
 
 let misses = 0;
 //let skip = false;
@@ -55,7 +70,7 @@ function iLikeToMoveItMoveIt(elem) {
     if (impossibleButton.checked) {
         actuallyMoveIt(elem);
     } else {
-        setTimeout(actuallyMoveIt, 50, elem);
+        setTimeout(actuallyMoveIt, difficultyData[diffIndex], elem);
     }
 }
 
@@ -68,5 +83,16 @@ function winSequence() {
     misses = 0;
     onUpdate();
     alert('Congratulations!!!\nIt took you '+miss+' tries!');
+    if (miss <= 1){
+        alert("You have mastered this difficulty!");
+        diffIndex++;
+        difficultyName.innerHTML = difficultyNames[diffIndex];
+        localStorage.setItem("difficulty", diffIndex)
+    }
     //skip = true;
+}
+
+function resetStats(){
+    localStorage.clear();
+    location.reload();
 }
