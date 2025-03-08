@@ -56,20 +56,23 @@ function onUpdate(){
 function actuallyMoveIt(elem) {
     elem.style.left = ((Math.random() * 80) + 10) + "%"
     elem.style.top = ((Math.random() * 80) + 10) + "%"
+}
 
+function normalMove(elem) {
+    actuallyMoveIt(elem);
     misses++;
     onUpdate();
 }
 
 function iLikeToMoveItMoveIt(elem) {
     if (impossibleButton.checked) {
-        actuallyMoveIt(elem);
+        normalMove(elem);
     } else {
-        currentWait = setTimeout(actuallyMoveIt, difficultyData[diffIndex], elem);
+        currentWait = setTimeout(normalMove, difficultyData[diffIndex], elem);
     }
 }
 
-function winSequence() {
+function winSequence(elem) {
     let miss = misses
     if (scores.HS > misses || scores.HS === -1) {
         highScore.innerHTML = misses;
@@ -85,9 +88,13 @@ function winSequence() {
         localStorage.setItem("difficulty", diffIndex)
     }
     clearTimeout(currentWait)
+    // Move it without counting a miss. Fix a bug where you could get the score impossibly high
+    actuallyMoveIt(elem)
+
 }
 
 function resetStats(){
-    localStorage.clear();
+    localStorage.removeItem("scores");
+    localStorage.removeItem("difficulty");
     location.reload();
 }
