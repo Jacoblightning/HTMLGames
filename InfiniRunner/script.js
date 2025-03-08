@@ -39,7 +39,20 @@ function runStart(elem) {
     setTimeout(startGame, 500)
 }
 
+let epilepsy = null;
+
 function startGame() {
+    {
+        let data = localStorage.getItem("epilepsy")
+        if (data) {
+            epilepsy = Boolean(Number(data))
+        }
+    }
+    if (epilepsy === null) {
+        epilepsy = confirm("Before we start, just one question. (This wont be asked again). Do you have epilepsy? OK for yes. Cancel for NO")
+        localStorage.setItem("epilepsy", epilepsy?"1":"0")
+    }
+
     setupGame();
     startAnimation1()
 }
@@ -48,6 +61,7 @@ let runner = document.getElementById("runner_running");
 let ground = document.getElementById("ground");
 
 let gameIsOver = false;
+let gameRunning = false;
 
 function onFullScreenChange(){
     if (gameIsOver) {
@@ -105,6 +119,7 @@ function setupGame(){
     ground.hidden = false;
     runner.style.top = "-10px"
     runner.hidden = false;
+    gameRunning = true;
     game.focus();
 }
 
@@ -148,26 +163,38 @@ function gameLoop() {
 function onFrame() {
     manageKeys();
     shiftLeft();
-    checkCollisions();
     manageObstacles();
     manageJump();
+    checkCollisions();
 
-    // Rerequest the frame
-    lastFrameRequest = window.requestAnimationFrame(onFrame);
+    if (!gameIsOver) {
+        // Rerequest the frame
+        lastFrameRequest = window.requestAnimationFrame(onFrame);
+    }
 }
 
 function gameOver(){
     let GO = document.getElementById("gameOver");
+    function evil() {
+        GO.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16)
+    }
 
     gameIsOver = true;
+    gameRunning = false;
 
     for (const toClear of clearOnGameOver) {
         clearInterval(toClear);
     }
 
     window.cancelAnimationFrame(lastFrameRequest);
+    document.getElementById("fs").hidden = true;
+    document.getElementById("ng").hidden = false;
     game.hidden = true;
     GO.hidden = false;
+    if (!epilepsy) {
+        setInterval(evil, 10);
+    }
+
 }
 
 function manageKeys(){
@@ -220,6 +247,7 @@ function checkCollisions() {
     for (const obstacle of obstacles) {
         if (collisionCheck(runner, obstacle)) {
             gameOver();
+            return
         }
     }
 }
@@ -275,4 +303,10 @@ function manageJump() {
         jumpStatus = -1;
     }
     jumpStatus++;
+}
+
+function doTouchscreenStuff(){
+    if (gameRunning) {
+        jump();
+    }
 }

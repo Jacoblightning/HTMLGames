@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" onclick="doTouchscreenStuff();">
 <head>
     <meta charset="UTF-8">
     <title>InfiniRunner!</title>
@@ -10,6 +10,7 @@
 <body>
 
 <button id="fs" onclick="game.requestFullscreen();" hidden>Full Screen</button>
+<button id="ng" onmouseenter="location.reload();" hidden>New Game</button>
 
 <div id="game">
     <!--suppress CheckImageSize -->
