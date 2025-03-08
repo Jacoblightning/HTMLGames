@@ -47,7 +47,13 @@ function startGame() {
 let runner = document.getElementById("runner_running");
 let ground = document.getElementById("ground");
 
+let gameIsOver = false;
+
 function onFullScreenChange(){
+    if (gameIsOver) {
+        return;
+    }
+
     let pos = parseInt(runner.style.top);
 
     // noinspection GrazieInspection
@@ -152,9 +158,8 @@ function onFrame() {
 
 function gameOver(){
     let GO = document.getElementById("gameOver");
-    function evil() {
-        GO.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16)
-    }
+
+    gameIsOver = true;
 
     for (const toClear of clearOnGameOver) {
         clearInterval(toClear);
@@ -163,11 +168,6 @@ function gameOver(){
     window.cancelAnimationFrame(lastFrameRequest);
     game.hidden = true;
     GO.hidden = false;
-    document.exitFullscreen().then(()=>{
-        setInterval(evil, 10)
-    }).catch(()=>{
-        setInterval(evil, 10)
-    })
 }
 
 function manageKeys(){
@@ -270,7 +270,7 @@ function manageJump() {
     } else {
         console.log("Jump over.")
         // Fix the runner's position
-        fixRunnerPosition();
+        //fixRunnerPosition();
         // Will be increased back to 0
         jumpStatus = -1;
     }
