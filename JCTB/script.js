@@ -34,7 +34,7 @@ difficultyName.innerHTML = difficultyNames[diffIndex];
 
 
 let misses = 0;
-//let skip = false;
+let currentWait = null;
 
 function recalcMisses() {
     missCount.innerHTML = misses;
@@ -62,15 +62,10 @@ function actuallyMoveIt(elem) {
 }
 
 function iLikeToMoveItMoveIt(elem) {
-    //if (skip){
-    //    skip = false;
-    //    return;
-    //}
-
     if (impossibleButton.checked) {
         actuallyMoveIt(elem);
     } else {
-        setTimeout(actuallyMoveIt, difficultyData[diffIndex], elem);
+        currentWait = setTimeout(actuallyMoveIt, difficultyData[diffIndex], elem);
     }
 }
 
@@ -83,13 +78,13 @@ function winSequence() {
     misses = 0;
     onUpdate();
     alert('Congratulations!!!\nIt took you '+miss+' tries!');
-    if (miss <= 1){
+    if (miss <= 3){
         alert("You have mastered this difficulty!");
         diffIndex++;
         difficultyName.innerHTML = difficultyNames[diffIndex];
         localStorage.setItem("difficulty", diffIndex)
     }
-    //skip = true;
+    clearTimeout(currentWait)
 }
 
 function resetStats(){

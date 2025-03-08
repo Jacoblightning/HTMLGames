@@ -1,0 +1,74 @@
+.pixelArt {
+    image-rendering: pixelated;
+}
+
+.theGuy {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#startButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 32px;
+    padding: 32px 64px;
+    border-radius: 8px;
+    border: 4px solid blue;
+
+    background-color: lawngreen;
+
+    transition-duration: 0.4s;
+
+    cursor: pointer;
+}
+
+#startButton:hover {
+    color: white;
+
+    background-color: darkred;
+
+    border-radius: 12px;
+    border: 8px solid deeppink;
+}
+
+#startButton:active {
+    font-size: 30px;
+    padding: 30px 60px;
+    border-radius: 6px;
+}
+
+#ground {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+
+    border: 10px solid green;
+}
+
+#game::backdrop {
+    background-color: white;
+}
+
+.spike {
+    position: absolute;
+    bottom: 40%;
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 128px;
+    border: 16px solid red;
+    border-radius: 15px;
+
+    padding: 32px 64px;
+}

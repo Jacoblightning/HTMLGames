@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InfiniRunner!</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<button id="fs" onclick="game.requestFullscreen();" hidden>Full Screen</button>
+
+<div id="game">
+    <!--suppress CheckImageSize -->
+    <img class="pixelArt theGuy" src="assets/runner_jumping.png" id="runner_jumping" alt="The Guy" width="128p" height="128p" hidden>
+    <!--suppress CheckImageSize -->
+    <img class="pixelArt theGuy" src="assets/runner_running_1.png" id="runner_running" alt="The Guy" width="128p" height="128p" hidden>
+
+    <button id="startButton" onclick="runStart(this);">Start Game</button>
+
+    <div id="groundElements">
+        <hr id="ground" hidden>
+        <div id="obstacles"></div>
+    </div>
+</div>
+
+<h1 id="gameOver" hidden>Game Over</h1>
+
+</body>
+</html>
